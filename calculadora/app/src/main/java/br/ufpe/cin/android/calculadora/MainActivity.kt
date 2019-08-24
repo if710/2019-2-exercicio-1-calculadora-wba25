@@ -7,6 +7,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import android.R.attr.orientation
+import android.content.res.Configuration
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,10 +20,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         updateExpr("0.0")
-        val sharedPref = getPreferences(MODE_PRIVATE) ?: return
-        val infoTxt = sharedPref.getString("info", "")
-        if(infoTxt!= null) {
-            addTextInfo(infoTxt)
+        addTextInfo("")
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation === Configuration.ORIENTATION_LANDSCAPE) {
+            toastSomething("landscape")
+            val sharedPref = getPreferences(MODE_PRIVATE) ?: return
+            val infoTxt = sharedPref.getString("info", "")
+            if(infoTxt!= null) addTextInfo(infoTxt)
         }
     }
 

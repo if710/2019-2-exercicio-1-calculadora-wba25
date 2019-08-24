@@ -28,7 +28,9 @@ class MainActivity : AppCompatActivity() {
     fun addElementToExpr(elem: String) {
         when (elem) {
             "=" -> {
-                updateExpr(eval(expr).toString())
+                val res = eval(expr).toString()
+                updateExpr(res)
+                addTextInfo(res)
             }
             "C" -> {
                 updateExpr("0.0")
@@ -42,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 
     fun updateExpr(newExpr: String) {
         expr = newExpr
-        addTextInfo(expr)
+        addTextResult(expr)
     }
 
     fun toastSomething(txt: String) {

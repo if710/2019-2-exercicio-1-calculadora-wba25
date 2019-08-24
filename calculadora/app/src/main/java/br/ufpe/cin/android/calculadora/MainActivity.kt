@@ -2,14 +2,62 @@ package br.ufpe.cin.android.calculadora
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
+
+    var expr = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        updateExpr("0.0")
     }
 
+    fun onClickNumber(view: View) {
+        if (view is Button) {
+            addElementToExpr(view.text.toString())
+        }
+    }
+
+    fun addElementToExpr(elem: String) {
+        when (elem) {
+            "=" -> {
+                updateExpr(eval(expr).toString())
+            }
+            "C" -> {
+                updateExpr("0.0")
+            }
+            else -> {
+                if(expr == "0.0") expr = ""
+                updateExpr(expr + elem)
+            }
+        }
+    }
+
+    fun updateExpr(newExpr: String) {
+        expr = newExpr
+        addTextInfo(expr)
+    }
+
+    fun toastSomething(txt: String) {
+        Toast.makeText(this, txt, Toast.LENGTH_LONG).show()
+    }
+
+    fun addTextInfo(txt: String) {
+        val infoText = findViewById<TextView>(R.id.text_info)
+        infoText.text = txt
+    }
+
+    fun addTextResult(txt: String) {
+        val resultText = findViewById<EditText>(R.id.text_calc)
+        resultText.setText(txt)
+    }
 
     //Como usar a função:
     // eval("2+2") == 4.0

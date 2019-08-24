@@ -85,7 +85,10 @@ class MainActivity : AppCompatActivity() {
             fun parse(): Double {
                 nextChar()
                 val x = parseExpression()
-                if (pos < str.length) throw RuntimeException("Caractere inesperado: " + ch)
+                if (pos < str.length) {
+                    toastSomething("Caractere inesperado: " + ch)
+                    return 0.0
+                }
                 return x
             }
 
@@ -128,7 +131,13 @@ class MainActivity : AppCompatActivity() {
                     eat(')')
                 } else if ((ch in '0'..'9') || ch == '.') { // números
                     while ((ch in '0'..'9') || ch == '.') nextChar()
-                    x = java.lang.Double.parseDouble(str.substring(startPos, this.pos))
+                    try {
+                        x = java.lang.Double.parseDouble(str.substring(startPos, this.pos))
+                    }
+                    catch (e: NumberFormatException) {
+                        toastSomething("Erro de conversão")
+                        return 0.0
+                    }
                 } else if (ch in 'a'..'z') { // funções
                     while (ch in 'a'..'z') nextChar()
                     val func = str.substring(startPos, this.pos)
@@ -141,10 +150,13 @@ class MainActivity : AppCompatActivity() {
                         x = Math.cos(Math.toRadians(x))
                     else if (func == "tan")
                         x = Math.tan(Math.toRadians(x))
-                    else
-                        throw RuntimeException("Função desconhecida: " + func)
+                    else{
+                        toastSomething("Função desconhecida: " + func)
+                        return 0.0
+                    }
                 } else {
-                    throw RuntimeException("Caractere inesperado: " + ch.toChar())
+                    toastSomething("Caractere inesperado: " + ch.toChar())
+                    return 0.0
                 }
                 if (eat('^')) x = Math.pow(x, parseFactor()) // potência
                 return x

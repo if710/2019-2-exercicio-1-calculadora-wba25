@@ -17,6 +17,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         updateExpr("0.0")
+        val sharedPref = getPreferences(MODE_PRIVATE) ?: return
+        val infoTxt = sharedPref.getString("info", "")
+        if(infoTxt!= null) {
+            addTextInfo(infoTxt)
+        }
     }
 
     fun onClickNumber(view: View) {
@@ -54,6 +59,11 @@ class MainActivity : AppCompatActivity() {
     fun addTextInfo(txt: String) {
         val infoText = findViewById<TextView>(R.id.text_info)
         infoText.text = txt
+        val sharedPref = getPreferences(MODE_PRIVATE) ?: return
+        with (sharedPref.edit()) {
+            putString("info", txt)
+            commit()
+        }
     }
 
     fun addTextResult(txt: String) {

@@ -26,13 +26,10 @@ class MainActivity : AppCompatActivity() {
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
 
-        // Checks the orientation of the screen
-        if (newConfig.orientation === Configuration.ORIENTATION_LANDSCAPE) {
-            toastSomething("landscape")
-            val sharedPref = getPreferences(MODE_PRIVATE) ?: return
-            val infoTxt = sharedPref.getString("info", "")
-            if(infoTxt!= null) addTextInfo(infoTxt)
-        }
+        toastSomething("Configuration was changed")
+        val sharedPref = getPreferences(MODE_PRIVATE) ?: return
+        val infoTxt = sharedPref.getString("info", "")
+        if(infoTxt!= null) addTextInfo(infoTxt)
     }
 
     fun onClickNumber(view: View) {

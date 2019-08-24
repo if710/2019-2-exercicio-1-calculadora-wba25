@@ -11,7 +11,7 @@
             android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:configChanges="orientation">
+            android:configChanges="orientation|uiMode|screenLayout|keyboardHidden|locale|mcc|mnc">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
